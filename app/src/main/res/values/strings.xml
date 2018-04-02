@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Twisty Ride</string>
+    <string name="your_bike">Your bike</string>
+    <string name="your_bike_hint">Bike brand</string>
+    <string name="brand_name">Brand</string>
+    <string name="Manu_number">Manufacuter number</string>
+    <string name="manufacturer_number_hint">…CBF600, XJ6, Ninja 600, …</string>
+    <string name="basic_info">Basic information</string>
+    <string name="km_driven_hint">km</string>
+    <string name="kilometers_driven">Kilometers driven</string>
+    <string name="tank_size_hint">Tank size</string>
+    <string name="motorcycle_tehnical">motorcycle_tehnical</string>
+</resources>
