@@ -18,6 +18,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,6 +35,8 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
     final static String[] PERMISSIONS = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
     private GoogleMap mMap;
+
+ //   boolean StartTracking = false;
 
     MarkerOptions mo;
     Marker marker;
@@ -163,4 +167,15 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 10, locationListener);
     }
 
+/*    public void startStopTracking(View view) {
+        Button button = (Button) view.findViewById(R.id.record_button);
+        if(StartTracking == false) {
+            button.setBackgroundResource(R.drawable.stop);
+            StartTracking = true;
+        }else{
+            button.setBackgroundResource(R.drawable.record);
+            StartTracking = false;
+        }
+    }
+*/
 }
