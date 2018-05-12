@@ -19,6 +19,27 @@ public class maptrack_menu extends Fragment implements View.OnClickListener {
     boolean StartTracking = false;
     private ImageButton recordButton;
 
+    OnRecordButtonClick mCallback;
+
+    // Container Activity must implement this interface
+    public interface OnRecordButtonClick {
+        public void onRecordButtonPressed(boolean status);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnRecordButtonClick) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +66,7 @@ public class maptrack_menu extends Fragment implements View.OnClickListener {
                     StartTracking = false;
                     Log.w("mapTrack_menu", "record button = false");
                 }
+                mCallback.onRecordButtonPressed(StartTracking);
                 break;
         }
     }

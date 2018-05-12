@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -28,8 +29,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
-public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import java.util.ArrayList;
+import java.util.List;
+
+public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCallback, maptrack_menu.OnRecordButtonClick{
 
     final static int PERMISSION_ALL = 1;
     final static String[] PERMISSIONS = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
@@ -60,6 +66,16 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
         if (!isLocationEnabled()) {
             showAlert(1);
         }
+
+        Button showTrail = (Button) findViewById(R.id.showTrail);
+        showTrail.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                drawPolyline();
+            }
+        });
+
     }
 
     private void showAlert(final int status) {
@@ -125,12 +141,15 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
         marker = mMap.addMarker(mo);
     }
 
+    List<LatLng> myCoordinates = new ArrayList<LatLng>();
+
     LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            LatLng myCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
-            marker.setPosition(myCoordinates);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(myCoordinates));
+            myCoordinates.add(new LatLng(location.getLatitude(), location.getLongitude()));
+            marker.setPosition(myCoordinates.get(myCoordinates.size() - 1));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(myCoordinates.get(myCoordinates.size() - 1)));
+            Log.w("TrackMapsActivity", "Location Changed");
         }
 
         @Override
@@ -148,6 +167,19 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
 
         }
     };
+
+
+    Polyline line;
+
+    private void drawPolyline() {
+        PolylineOptions options = new PolylineOptions().width(5).color(Color.BLUE).geodesic(true);
+        for (int z = 0; z < myCoordinates.size(); z++) {
+            LatLng point = myCoordinates.get(z);
+            options.add(point);
+        }
+        line = mMap.addPolyline(options);
+        Log.w("TrackMapsActivity", "Polyline added");
+    }
 
     private void requestLocation() {
         Criteria criteria = new Criteria();
@@ -167,15 +199,8 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 10, locationListener);
     }
 
-/*    public void startStopTracking(View view) {
-        Button button = (Button) view.findViewById(R.id.record_button);
-        if(StartTracking == false) {
-            button.setBackgroundResource(R.drawable.stop);
-            StartTracking = true;
-        }else{
-            button.setBackgroundResource(R.drawable.record);
-            StartTracking = false;
-        }
+    @Override
+    public void onRecordButtonPressed(boolean status) {
+        Log.w("TrackMapsActivity", Boolean.toString(status));
     }
-*/
 }
