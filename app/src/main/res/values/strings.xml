@@ -17,4 +17,5 @@
     <string name="record">Record</string>
     <string name="Saved">Saved</string>
     <string name="gas_pump">Gas pump</string>
+    <string name="title_activity_service_history">serviceHistory</string>
 </resources>

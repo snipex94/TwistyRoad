@@ -18,4 +18,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TrackMapsActivity.class);
         startActivity(intent);
     }
+
+    public void onClickLaunchService(View view) {
+        Intent intent = new Intent(this, serviceHistory.class);
+        startActivity(intent);
+    }
 }

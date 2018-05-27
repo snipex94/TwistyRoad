@@ -39,6 +39,10 @@
             android:name=".TrackMapsActivity"
             android:label="@string/title_activity_track_maps"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".serviceHistory"
+            android:label="@string/title_activity_service_history"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
