@@ -18,4 +18,6 @@
     <string name="Saved">Saved</string>
     <string name="gas_pump">Gas pump</string>
     <string name="title_activity_service_history">serviceHistory</string>
+    <string name="title_activity_write_service_data">WriteServiceData</string>
+    <string name="title_activity_photo_service_data">PhotoServiceData</string>
 </resources>

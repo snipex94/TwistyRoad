@@ -69,7 +69,6 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
 
         Button showTrail = (Button) findViewById(R.id.showTrail);
         showTrail.setOnClickListener( new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 drawPolyline();
