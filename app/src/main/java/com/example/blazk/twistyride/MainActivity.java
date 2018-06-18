@@ -33,7 +33,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickLaunchService(final View view) {
+
+        Intent intent = new Intent(view.getContext(), ServiceHistoryMainWindow.class);
+        startActivity(intent);
         // setup the alert builder
+        /*
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose");
         builder.setMessage("How would you like to enter the data");
@@ -52,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();
+        */
     }
 
     String mCurrentPhotoPath;
@@ -70,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
+                Log.w("Picture", "Exception catched when trying to create a file");
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -97,6 +101,14 @@ public class MainActivity extends AppCompatActivity {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            Log.w("MainActivity", "Finished with taking a picture. Now in onActivityResult.");
         }
     }
 }
