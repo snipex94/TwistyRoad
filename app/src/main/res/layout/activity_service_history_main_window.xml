@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
@@ -42,25 +42,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="144dp"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        android:visibility="invisible"
         app:backgroundTint="@color/colorFAB2"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        android:src="@drawable/ic_done"/>
+        android:src="@drawable/ic_done"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="80dp"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        android:visibility="invisible"
-        app:elevation="6dp"
         app:backgroundTint="@color/colorFAB1"
-        app:pressedTranslationZ="12dp"
-        android:src="@drawable/ic_message"/>
+        android:src="@drawable/ic_add"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

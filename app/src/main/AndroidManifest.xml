@@ -50,10 +50,6 @@
             android:name=".WriteServiceData"
             android:label="@string/title_activity_write_service_data"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".PhotoServiceData"
-            android:label="@string/title_activity_photo_service_data"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
