@@ -56,6 +56,7 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
         myDataset[4] = "Hello4";
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
