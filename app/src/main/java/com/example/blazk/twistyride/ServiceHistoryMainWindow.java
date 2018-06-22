@@ -40,6 +40,7 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
     private Animation rotate_forward;
     private Animation rotate_backward;
 
+    MyDatabaseHelper dbHelper;
     String[] myDataset = new String[5];
 
     @Override
@@ -54,6 +55,8 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
         myDataset[2] = "Hello2";
         myDataset[3] = "Hello3";
         myDataset[4] = "Hello4";
+
+        dbHelper = new MyDatabaseHelper(this, null, null, 2);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -153,7 +156,7 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
                 break;
             case R.id.fab2:
                 Log.d("ServiceHistoryMain", "Fab 2 Clicked");
-                Intent intent = new Intent(v.getContext(), WriteServiceData.class);
+                Intent intent = new Intent(this, WriteServiceData.class);
                 startActivity(intent);
                 break;
         }
@@ -178,6 +181,8 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
 
     static final int REQUEST_TAKE_PHOTO = 1;
 
+    Uri photoURI = null;
+
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -188,11 +193,11 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Log.w("Picture", "Exception catched when trying to create a file");
+                Log.d("Picture", "Exception catched when trying to create a file");
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
+                photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -205,7 +210,13 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            Log.w("MainActivity", "Finished with taking a picture. Now in onActivityResult.");
+            Log.d("ServiceHistoryMain", "Finished with taking a picture. Now in onActivityResult.");
+            Log.d("ServiceHistoryMain", "Photo URI: " + photoURI.toString());
+            ServiceItem serviceItem = new ServiceItem(ServiceItem.DataType.IMAGE);
+            serviceItem.set_photoUri(photoURI.toString());
+            dbHelper.addImagePath(serviceItem);
+            //Log.d("ServiceHistoryMain", "Database: " + dbHelper.databaseToString());
+            //dbHelper.addType(serviceItem);
         }
     }
 }

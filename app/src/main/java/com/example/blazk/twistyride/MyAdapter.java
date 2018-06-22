@@ -1,6 +1,7 @@
 package com.example.blazk.twistyride;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -52,7 +53,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.personName.setText(mDataset[position]);
-        //holder.personPhoto.setImageURI();
+        //holder.personPhoto.setImageURI(Uri.parse("content://com.example.android.fileprovider/my_images/JPEG_20180621_120956_5307991153696487146.jpg"));
     }
 
     @Override

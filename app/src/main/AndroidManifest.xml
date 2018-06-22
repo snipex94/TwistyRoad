@@ -64,7 +64,11 @@
         <activity
             android:name=".ServiceHistoryMainWindow"
             android:label="@string/title_activity_service_history_main_window"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".whatWasDone"
+            android:label="@string/title_activity_what_was_done"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
