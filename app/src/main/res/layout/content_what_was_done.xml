@@ -62,7 +62,7 @@
         android:checked="false"
         android:text="Battery"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbOil2" />
+        app:layout_constraintTop_toBottomOf="@+id/cbOil" />
 
     <EditText
         android:id="@+id/edServiceShop"
@@ -91,7 +91,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="cost"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|numberDecimal"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -105,7 +105,7 @@
         android:layout_marginTop="16dp"
         android:checked="false"
         android:text="Tyres"
-        app:layout_constraintStart_toEndOf="@+id/cbOil2"
+        app:layout_constraintStart_toEndOf="@+id/cbOil"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <CheckBox
@@ -149,7 +149,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <CheckBox
-        android:id="@+id/cbOil2"
+        android:id="@+id/cbOil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"

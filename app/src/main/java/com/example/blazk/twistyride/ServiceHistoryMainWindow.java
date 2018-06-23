@@ -1,5 +1,6 @@
 package com.example.blazk.twistyride;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +26,11 @@ import android.view.animation.TranslateAnimation;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import static android.content.Intent.FLAG_ACTIVITY_FORWARD_RESULT;
 
 public class ServiceHistoryMainWindow extends AppCompatActivity implements View.OnClickListener{
 
@@ -43,6 +48,9 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
     MyDatabaseHelper dbHelper;
     String[] myDataset = new String[5];
 
+    static final int REQUEST_TAKE_PHOTO = 1;
+    static final int REQUEST_WRITE_SERVICE_DATA = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +64,7 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
         myDataset[3] = "Hello3";
         myDataset[4] = "Hello4";
 
-        dbHelper = new MyDatabaseHelper(this, null, null, 2);
+        dbHelper = new MyDatabaseHelper(this, null, null, 4);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -69,8 +77,11 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        List<List<String>> list = dbHelper.getColumnServiceinfo();
+        //Log.d("ServiceHistoryMain", list.get(0));
+
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(myDataset);
+        mAdapter = new MyAdapter(list);
         mRecyclerView.setAdapter(mAdapter);
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
@@ -157,7 +168,7 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
             case R.id.fab2:
                 Log.d("ServiceHistoryMain", "Fab 2 Clicked");
                 Intent intent = new Intent(this, WriteServiceData.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_WRITE_SERVICE_DATA);
                 break;
         }
     }
@@ -178,8 +189,6 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
-
-    static final int REQUEST_TAKE_PHOTO = 1;
 
     Uri photoURI = null;
 
@@ -217,6 +226,12 @@ public class ServiceHistoryMainWindow extends AppCompatActivity implements View.
             dbHelper.addImagePath(serviceItem);
             //Log.d("ServiceHistoryMain", "Database: " + dbHelper.databaseToString());
             //dbHelper.addType(serviceItem);
+        }
+        else if(requestCode == REQUEST_WRITE_SERVICE_DATA && resultCode == RESULT_OK) {
+            ServiceItem serviceItem = data.getParcelableExtra("ServiceItem");
+            serviceItem.set_dataType(ServiceItem.DataType.TEXT);
+            Log.d("ServiceHistoryMain", serviceItem.get_service());
+            dbHelper.addTextServiceInfo(serviceItem);
         }
     }
 }

@@ -109,7 +109,7 @@ public class ServiceItem implements Parcelable{
     }
 
     public void set_dateInt(int year, int month, int day) {
-        _date = String.valueOf(year) + "." + String.valueOf(month) + "." + String.valueOf(day);
+        _date = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(day);
     }
 
     public String get_date() {
@@ -121,9 +121,15 @@ public class ServiceItem implements Parcelable{
         if (_service == "") {
             _service = service_item;
         } else {
-            _service += "," + service_item;
+            _service += service_item + ";";
         }
     }
+
+    public void put_shopAndPrice(String shop, String price) {
+        _service = shop + ";" + price + ";" +_service;
+    }
+
+
 
     public String get_service() {
         return _service;
