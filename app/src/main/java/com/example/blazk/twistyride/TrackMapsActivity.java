@@ -11,16 +11,15 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,8 +30,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCallback, maptrack_menu.OnRecordButtonClick{
@@ -48,6 +50,16 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
     Marker marker;
     LocationManager locationManager;
     LatLng latLng;
+
+    TextView tv_distDriven;
+    TextView tv_time;
+    TextView tv_avgSpeed;
+
+    Date startDate;
+    Date endDate;
+    private String defaultDistDriverString = "Distance driven : ";
+    private String defaultTimeString = "Time : ";
+    private String defaultavgSpeedString = "Average speed : ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +79,27 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
             showAlert(1);
         }
 
-        Button showTrail = (Button) findViewById(R.id.showTrail);
-        showTrail.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawPolyline();
-            }
-        });
+        tv_distDriven = findViewById(R.id.tv_distDriven);
+        tv_time = findViewById(R.id.tv_time);
+        tv_avgSpeed = findViewById(R.id.tv_AvgSpeed);
 
+        tv_distDriven.setText(defaultDistDriverString);
+        tv_time.setText(defaultTimeString);
+        tv_avgSpeed.setText(defaultavgSpeedString);
+    }
+
+    private void computeAndShowTraceData() {
+        double distance = SphericalUtil.computeLength(myCoordinates);
+        Log.d("TrackMapsActivity", "Calculated distance is : " + distance + " m");
+        tv_distDriven.setText(defaultDistDriverString + String.valueOf((int)distance) + " m");
+
+        double time = (endDate.getTime() - startDate.getTime()) / 1000;
+        Log.d("TrackMapsActivity", "Calculated time is : " + String.valueOf((int)time) + " s");
+        tv_time.setText(defaultTimeString + String.valueOf(time) + " s");
+
+        double avgSpeed = (3.6*distance)/time ;
+        Log.d("TrackMapsActivity", "Calculated average speed is : " + String.valueOf(avgSpeed) + " km/h");
+        tv_avgSpeed.setText(defaultavgSpeedString + String.valueOf((int)avgSpeed) + " km/h");
     }
 
     private void showAlert(final int status) {
@@ -124,7 +149,6 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
         }
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -142,25 +166,26 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
 
     List<LatLng> myCoordinates = new ArrayList<LatLng>();
 
+    private boolean RECORD_STATUS = false;
+
     LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            myCoordinates.add(new LatLng(location.getLatitude(), location.getLongitude()));
-            marker.setPosition(myCoordinates.get(myCoordinates.size() - 1));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(myCoordinates.get(myCoordinates.size() - 1)));
-            Log.w("TrackMapsActivity", "Location Changed");
+            if(RECORD_STATUS == true) {
+                myCoordinates.add(new LatLng(location.getLatitude(), location.getLongitude()));
+                marker.setPosition(myCoordinates.get(myCoordinates.size() - 1));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCoordinates.get(myCoordinates.size() - 1), 15));
+                Log.w("TrackMapsActivity", "Location Changed");
+            }
         }
-
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
 
         }
-
         @Override
         public void onProviderEnabled(String provider) {
 
         }
-
         @Override
         public void onProviderDisabled(String provider) {
 
@@ -177,7 +202,7 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
             options.add(point);
         }
         line = mMap.addPolyline(options);
-        Log.w("TrackMapsActivity", "Polyline added");
+        Log.d("TrackMapsActivity", "Polyline added");
     }
 
     private void requestLocation() {
@@ -195,11 +220,21 @@ public class TrackMapsActivity extends FragmentActivity implements OnMapReadyCal
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 10, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 1, locationListener);
     }
 
     @Override
     public void onRecordButtonPressed(boolean status) {
         Log.w("TrackMapsActivity", Boolean.toString(status));
+        if(status == true) {
+            startDate = Calendar.getInstance().getTime();
+            myCoordinates.clear();
+        }
+        else if((RECORD_STATUS == true) && (status == false)) {
+            endDate = Calendar.getInstance().getTime();
+            drawPolyline();
+            computeAndShowTraceData();
+        }
+        RECORD_STATUS = status;
     }
 }

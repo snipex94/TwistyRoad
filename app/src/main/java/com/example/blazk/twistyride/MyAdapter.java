@@ -21,9 +21,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.example.blazk.twistyride.MyDatabaseHelper.COLUMN_DATATYPE_INDEX;
+import static com.example.blazk.twistyride.MyDatabaseHelper.COLUMN_DATE_INDEX;
 import static com.example.blazk.twistyride.MyDatabaseHelper.COLUMN_IMAGEPATH;
 import static com.example.blazk.twistyride.MyDatabaseHelper.COLUMN_IMAGEPATH_INDEX;
 import static com.example.blazk.twistyride.MyDatabaseHelper.COLUMN_SERVICEINFO_INDEX;
+import static com.example.blazk.twistyride.MyDatabaseHelper.COLUMN_TIMESTAMP_INDEX;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<List<String>> mDataset;
@@ -37,6 +39,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         TextView shopName;
         TextView cost;
         ImageView photo;
+        TextView date;
+        TextView info;
 
         public ViewHolder(View v) {
             super(v);
@@ -44,6 +48,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             shopName = (TextView)itemView.findViewById(R.id.shop_name);
             cost = (TextView)itemView.findViewById(R.id.cost);
             photo = (ImageView)itemView.findViewById(R.id.photo);
+            date = (TextView)itemView.findViewById(R.id.date);
+            info = (TextView)itemView.findViewById(R.id.info);
         }
     }
 
@@ -67,15 +73,29 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         // - replace the contents of the view with that element
         //System.out.println(Arrays.deepToString(mDataset.toArray()));
 
+        position = mDataset.size() - position - 1;
+
         if(mDataset.get(position).get(COLUMN_DATATYPE_INDEX).contains("TEXT")) {
             String serviceInfo = mDataset.get(position).get(COLUMN_SERVICEINFO_INDEX).toString();
             String[] serviceInfo_nibbles = serviceInfo.split(";");
             Log.d("MyAdapter", serviceInfo);
             holder.shopName.setText(serviceInfo_nibbles[0]);
-            holder.cost.setText(serviceInfo_nibbles[1]);
+            holder.cost.setText("Cost: " + serviceInfo_nibbles[1] + " €");
+
+            String serviceInfoString = serviceInfo_nibbles[2];
+
+            for (int i = 3; i <= (serviceInfo_nibbles.length - 2); i++) {
+                serviceInfoString = serviceInfoString + ", " + serviceInfo_nibbles[i];
+            }
+
+            holder.date.setText("Date:     " + mDataset.get(position).get(COLUMN_DATE_INDEX));
+            holder.info.setText(serviceInfoString);
+            holder.cv.getLayoutParams().height = 700;
+            holder.photo.setVisibility(View.INVISIBLE);
         }else if(mDataset.get(position).get(COLUMN_DATATYPE_INDEX).contains("IMAGE")){
-            Log.d("MyAdapter", mDataset.get(position).get(COLUMN_IMAGEPATH_INDEX+1));
+            Log.d("MyAdapter", mDataset.get(position).get(COLUMN_IMAGEPATH_INDEX));
             holder.photo.setImageURI(Uri.parse(mDataset.get(position).get(COLUMN_IMAGEPATH_INDEX)));
+            holder.date.setText(mDataset.get(position).get(COLUMN_TIMESTAMP_INDEX));
         }
     }
 

@@ -97,16 +97,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper{
             if(cursor.getString(cursor.getColumnIndex(COLUMN_DATATYPE)).contains("TEXT")) {
                 data.add(cursor.getString(cursor.getColumnIndex(COLUMN_DATATYPE)));
                 data.add(cursor.getString(cursor.getColumnIndex(COLUMN_SERVICEINFO)));
-                data.add("");
+                data.add("filler");
                 data.add(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
                 data.add(cursor.getString(cursor.getColumnIndex(COLUMN_TIMESTAMP)));
                 list.add(data);
             }
             else if(cursor.getString(cursor.getColumnIndex(COLUMN_DATATYPE)).contains("IMAGE")){
                 data.add(cursor.getString(cursor.getColumnIndex(COLUMN_DATATYPE)));
-                data.add("");
+                data.add("filler");
                 data.add(cursor.getString(cursor.getColumnIndex(COLUMN_IMAGEPATH)));
-                data.add("");
+                data.add("filler");
                 data.add(cursor.getString(cursor.getColumnIndex(COLUMN_TIMESTAMP)));
                 list.add(data);
             }

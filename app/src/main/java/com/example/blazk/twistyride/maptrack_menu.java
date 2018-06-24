@@ -2,6 +2,7 @@
 package com.example.blazk.twistyride;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,6 +15,7 @@ public class maptrack_menu extends Fragment implements View.OnClickListener {
 
     boolean StartTracking = false;
     private ImageButton recordButton;
+    ImageButton service_history;
 
     OnRecordButtonClick mCallback;
 
@@ -42,10 +44,13 @@ public class maptrack_menu extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
-        Log.w("mapTrack", "inflate");
+        Log.d("mapTrack", "inflate");
 
         recordButton = v.findViewById(R.id.record_button);
         recordButton.setOnClickListener(this);
+
+        service_history = v.findViewById(R.id.service_history);
+        service_history.setOnClickListener(this);
         return v;
     }
 
@@ -56,13 +61,18 @@ public class maptrack_menu extends Fragment implements View.OnClickListener {
                 if(StartTracking == false) {
                     recordButton.setImageResource(R.drawable.stop);
                     StartTracking = true;
-                    Log.w("mapTrack_menu", "record button = true");
+                    Log.d("mapTrack_menu", "record button = true");
                 }else{
                     recordButton.setImageResource(R.drawable.record);
                     StartTracking = false;
-                    Log.w("mapTrack_menu", "record button = false");
+                    Log.d("mapTrack_menu", "record button = false");
                 }
                 mCallback.onRecordButtonPressed(StartTracking);
+                break;
+            case R.id.service_history:
+                Log.w("mapTrack_menu", "Starting SeviceHistoryMainWindow");
+                Intent intent = new Intent(v.getContext(), ServiceHistoryMainWindow.class);
+                startActivity(intent);
                 break;
         }
     }
