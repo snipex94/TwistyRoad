@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Twisty Ride</string>
-    <string name="title_activity_track_maps">Map</string>
+    <string name="title_activity_track_maps">Twisty Ride</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="title_activity_write_service_data">WriteServiceData</string>
-    <string name="title_activity_service_history_main_window">ServiceHistoryMainWindow</string>
-    <string name="title_activity_what_was_done">whatWasDone</string>
+    <string name="title_activity_write_service_data">Select date</string>
+    <string name="title_activity_service_history_main_window">Service history</string>
+    <string name="title_activity_what_was_done">What was done</string>
 </resources>
