@@ -21,7 +21,6 @@ import static com.example.blazk.twistyride.ServiceHistoryMainWindow.REQUEST_WRIT
 
 public class WriteServiceData extends AppCompatActivity {
 
-    Button bNext;
     CalendarView calendarView;
     ServiceItem serviceItem;
     /*
@@ -39,7 +38,6 @@ public class WriteServiceData extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        bNext = findViewById(R.id.bNext);
         calendarView = findViewById(R.id.calView);
         serviceItem = new ServiceItem(ServiceItem.DataType.TEXT);
 
@@ -55,9 +53,16 @@ public class WriteServiceData extends AppCompatActivity {
                 */
             }
         });
+
+        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onClickButtonNext();
+            }
+        });
     }
 
-    public void onClickButtonNext(View view) {
+    public void onClickButtonNext() {
         Intent intent = new Intent(this, whatWasDone.class);
         /*
         intent.putExtra("ServiceItem_year", _year);

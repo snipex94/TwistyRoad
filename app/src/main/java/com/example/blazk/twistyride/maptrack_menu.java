@@ -4,6 +4,7 @@ package com.example.blazk.twistyride;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,11 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-public class maptrack_menu extends Fragment implements View.OnClickListener {
+public class maptrack_menu extends Fragment{
 
     boolean StartTracking = false;
-    private ImageButton recordButton;
-    ImageButton service_history;
+
+    FloatingActionButton fabPlay;
+    FloatingActionButton fabService;
 
     OnRecordButtonClick mCallback;
 
@@ -46,30 +48,38 @@ public class maptrack_menu extends Fragment implements View.OnClickListener {
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
         Log.d("mapTrack", "inflate");
 
-        recordButton = v.findViewById(R.id.record_button);
-        recordButton.setOnClickListener(this);
+        fabPlay = (FloatingActionButton) v.findViewById(R.id.fabPlay);
+        fabPlay.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onClickButton(v);
+            }
+        });
 
-        service_history = v.findViewById(R.id.service_history);
-        service_history.setOnClickListener(this);
+        fabService = (FloatingActionButton) v.findViewById(R.id.fabService);
+        fabService.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onClickButton(v);
+            }
+        });
+
         return v;
     }
 
-    @Override
-    public void onClick(View v) {
+    public void onClickButton(View v) {
         switch (v.getId()) {
-            case R.id.record_button:
+            case R.id.fabPlay:
                 if(StartTracking == false) {
-                    recordButton.setImageResource(R.drawable.stop);
+                    fabPlay.setImageResource(R.drawable.ic_stop);
                     StartTracking = true;
                     Log.d("mapTrack_menu", "record button = true");
                 }else{
-                    recordButton.setImageResource(R.drawable.record);
+                    fabPlay.setImageResource(R.drawable.ic_play_arrow);
                     StartTracking = false;
                     Log.d("mapTrack_menu", "record button = false");
                 }
                 mCallback.onRecordButtonPressed(StartTracking);
                 break;
-            case R.id.service_history:
+            case R.id.fabService:
                 Log.w("mapTrack_menu", "Starting SeviceHistoryMainWindow");
                 Intent intent = new Intent(v.getContext(), ServiceHistoryMainWindow.class);
                 startActivity(intent);

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import static android.content.Intent.FLAG_ACTIVITY_FORWARD_RESULT;
 
@@ -53,46 +54,92 @@ public class whatWasDone extends AppCompatActivity {
         cbSprocket = findViewById(R.id.cbSprocket);
         cbCoolant = findViewById(R.id.cbCoolant);
         cbOil = findViewById(R.id.cbOil);
+
+        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onClickButtonFinish();
+            }
+        });
+
     }
 
-    public void onClickButtonFinish(View view) {
+    public void onClickButtonFinish() {
+
+        boolean CONTINUE = false;
+
         Log.d("whatWasDone", "Date selected was: " + serviceItem.get_date());
 
-        if(cbBrakeDisk.isChecked()) {
+        if (cbBrakeDisk.isChecked()) {
             serviceItem.put_service("BRAKE_DISK");
+            CONTINUE = true;
         }
-        if(cbAirFilter.isChecked()) {
+        if (cbAirFilter.isChecked()) {
             serviceItem.put_service("AIR_FILTER");
+            CONTINUE = true;
         }
-        if(cbBrakePads.isChecked()) {
+        if (cbBrakePads.isChecked()) {
             serviceItem.put_service("BRAKE_PADS");
+            CONTINUE = true;
         }
-        if(cbBattery.isChecked()) {
+        if (cbBattery.isChecked()) {
             serviceItem.put_service("BATTERY");
+            CONTINUE = true;
         }
-        if(cbTyres.isChecked()) {
+        if (cbTyres.isChecked()) {
             serviceItem.put_service("TYRES");
+            CONTINUE = true;
         }
-        if(cbChain.isChecked()) {
+        if (cbChain.isChecked()) {
             serviceItem.put_service("CHAIN");
+            CONTINUE = true;
         }
-        if(cbSprocket.isChecked()) {
+        if (cbSprocket.isChecked()) {
             serviceItem.put_service("SPROCKET");
+            CONTINUE = true;
         }
-        if(cbCoolant.isChecked()) {
+        if (cbCoolant.isChecked()) {
             serviceItem.put_service("COOLANT");
+            CONTINUE = true;
         }
-        if(cbOil.isChecked()) {
+        if (cbOil.isChecked()) {
             serviceItem.put_service("OIL");
+            CONTINUE = true;
         }
 
-        serviceItem.put_shopAndPrice(edServiceShop.getText().toString(), edCost.getText().toString());
+        if (CONTINUE == false) {
+            CharSequence text = "Check what was done!";
+            int duration = Toast.LENGTH_SHORT;
+            CONTINUE = false;
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+        }
 
-        Log.d("whatWasDone", "Returning");
-        Intent returnIntent = new Intent(this, ServiceHistoryMainWindow.class);
-        returnIntent.putExtra("ServiceItem", serviceItem);
-        setResult(Activity.RESULT_OK,returnIntent);
-        finish();
+        if (edCost.getText().toString() == "") {
+            CharSequence text = "Enter cost of service!";
+            int duration = Toast.LENGTH_SHORT;
+            CONTINUE = false;
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+        }
+
+        if (edServiceShop.getText().toString().isEmpty()) {
+            CharSequence text = "Enter service shop!";
+            int duration = Toast.LENGTH_SHORT;
+            CONTINUE = false;
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+        }
+
+        if (CONTINUE == true){
+            serviceItem.put_shopAndPrice(edServiceShop.getText().toString(), edCost.getText().toString());
+
+            Log.d("whatWasDone", "Returning");
+            Intent returnIntent = new Intent(this, ServiceHistoryMainWindow.class);
+            returnIntent.putExtra("ServiceItem", serviceItem);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+    }
 
     }
 

@@ -42,8 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="144dp"
-        app:backgroundTint="@color/colorFAB2"
-        android:src="@drawable/ic_done"
+        app:backgroundTint="@color/colorSecondAccent"
+        android:src="@drawable/ic_note_add"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
     <android.support.design.widget.FloatingActionButton
@@ -51,8 +51,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="80dp"
-        app:backgroundTint="@color/colorFAB1"
-        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/colorSecondAccent"
+        android:src="@drawable/ic_camera"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email"
+        android:src="@drawable/ic_add"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 </android.support.design.widget.CoordinatorLayout>

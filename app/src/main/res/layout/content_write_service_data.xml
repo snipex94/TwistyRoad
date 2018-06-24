@@ -8,6 +8,19 @@
     tools:context=".WriteServiceData"
     tools:showIn="@layout/activity_write_service_data">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calView"
+        app:srcCompat="@drawable/ic_navigate_next" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -16,6 +29,7 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="32dp"
         android:text="Enter date"
+        android:textColor="@color/colorPrimary_text"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,17 +46,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <Button
-        android:id="@+id/bNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:onClick="onClickButtonNext"
-        android:text="Next"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calView" />
 
 </android.support.constraint.ConstraintLayout>
